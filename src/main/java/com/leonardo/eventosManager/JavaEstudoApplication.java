@@ -1,4 +1,4 @@
-package com.leonardo.javaEstudo;
+package com.leonardo.eventosManager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

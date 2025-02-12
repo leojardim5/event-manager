@@ -1,4 +1,4 @@
-package com.leonardo.javaEstudo.model;
+package com.leonardo.eventosManager.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
