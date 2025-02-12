@@ -9,5 +9,7 @@ public class JavaEstudoApplication {
     public static void main(String[] args) {
         SpringApplication.run(JavaEstudoApplication.class, args);
     }
-    //comentario para teste
+    
 }
+
+// TESTAR SE O JpaRepository FUNCIONA PARA DIFERENTES CAMPOS NUMA TABELA11111

@@ -45,6 +45,7 @@ public class UsuarioService implements ServiceInterface<Usuario> {
     public void delete(long id) {
         usuarioRepository.deleteById(id);
 
-    }//comentario mais um 
+    }
+    
 
 }
