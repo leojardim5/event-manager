@@ -1,6 +1,8 @@
 package com.leonardo.eventosManager.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import com.leonardo.eventosManager.model.Usuario;
@@ -15,7 +17,31 @@ public class UsuarioService implements ServiceInterface<Usuario> {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Usuario register(Usuario usuario) {
+    @Override
+    public Usuario save(Usuario entity) {
+        return usuarioRepository.save(entity);
+    }
+
+    @Override
+    public List<Usuario> findALL() {
+        return usuarioRepository.findAll();
+    }
+
+    @Override
+    public Usuario update(Usuario entity) {
+
+        return usuarioRepository.save(entity);
+
+    }
+
+    @Override
+    public Optional<Usuario> findById(long id) {
+        return usuarioRepository.findById(id);
+    }
+
+    @Override
+    public void delete(long id) {
+        usuarioRepository.deleteById(id);
 
     }
 
