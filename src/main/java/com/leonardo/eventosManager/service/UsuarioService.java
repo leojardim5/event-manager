@@ -2,9 +2,7 @@ package com.leonardo.eventosManager.service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.leonardo.eventosManager.model.Usuario;
@@ -14,7 +12,7 @@ import com.leonardo.eventosManager.repository.UsuarioRepository;
 public class UsuarioService implements ServiceInterface<Usuario> {
 
     private UsuarioRepository usuarioRepository;
-   
+
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }
@@ -31,7 +29,7 @@ public class UsuarioService implements ServiceInterface<Usuario> {
 
     @Override
     public Usuario update(Usuario entity) {
-            
+
         return usuarioRepository.save(entity);
 
     }
