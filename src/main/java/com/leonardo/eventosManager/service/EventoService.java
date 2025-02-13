@@ -3,9 +3,12 @@ package com.leonardo.eventosManager.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.leonardo.eventosManager.model.Evento;
 import com.leonardo.eventosManager.repository.EventoRepository;
 
+@Service
 public class EventoService implements ServiceInterface<Evento> {
 
     private EventoRepository eventoRepository;
