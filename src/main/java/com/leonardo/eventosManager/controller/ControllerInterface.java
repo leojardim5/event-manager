@@ -1,18 +1,21 @@
 package com.leonardo.eventosManager.controller;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface ControllerInterface<T> {
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
-    T save(T entity);
+public interface ControllerInterface<T, ID> {
 
-    Optional<T> findById(long id);
+    ResponseEntity<List<T>> getAll();
 
-    List<T> findAll();
+    ResponseEntity<T> getById(@PathVariable ID id);
 
-    void deleteById(long id);
+    ResponseEntity<T> register(@RequestBody T entity);
 
-    T update(T entity);
+    ResponseEntity<T> update(@PathVariable ID id, @RequestBody T entity);
+
+    ResponseEntity<Void> delete(@PathVariable ID id);
 
 }
