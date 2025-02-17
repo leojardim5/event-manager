@@ -57,7 +57,7 @@ public class UsuarioController implements ControllerInterface<Usuario, Long> {
             Usuario usuarioAtualizado = usuarioExistente.get();
             usuarioAtualizado.setNome(entity.getNome());
             usuarioAtualizado.setEmail(entity.getEmail());
-            // Adicione outros campos conforme necessário
+
             Usuario atualizado = usuarioService.update(usuarioAtualizado);
             return ResponseEntity.ok(atualizado);
         } catch (Exception e) {

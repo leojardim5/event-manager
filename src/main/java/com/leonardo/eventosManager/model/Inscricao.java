@@ -30,4 +30,36 @@ public class Inscricao {
     @Column(name = "tipo_inscricao")
     @Enumerated(EnumType.STRING)
     private TipoInscricao tipoInscricao; // ORGANIZADOR ou CONVIDADO
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public TipoInscricao getTipoInscricao() {
+        return tipoInscricao;
+    }
+
+    public void setTipoInscricao(TipoInscricao tipoInscricao) {
+        this.tipoInscricao = tipoInscricao;
+    }
 }
