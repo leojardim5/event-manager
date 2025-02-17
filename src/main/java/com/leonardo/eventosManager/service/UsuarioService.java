@@ -11,7 +11,7 @@ import com.leonardo.eventosManager.repository.UsuarioRepository;
 @Service
 public class UsuarioService implements ServiceInterface<Usuario> {
 
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;

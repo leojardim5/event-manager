@@ -17,7 +17,7 @@ import com.leonardo.eventosManager.service.UsuarioService;
 @Controller
 public class UsuarioController implements ControllerInterface<Usuario, Long> {
 
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
@@ -37,7 +37,6 @@ public class UsuarioController implements ControllerInterface<Usuario, Long> {
         return optionalUsuario.isPresent() ? ResponseEntity.ok(optionalUsuario.get()) : ResponseEntity.notFound().build();
     }
 
-    @Override
     @PostMapping
     public ResponseEntity<Usuario> register(@RequestBody Usuario entity) {
         try {

@@ -12,8 +12,6 @@ public interface ControllerInterface<T, ID> {
 
     ResponseEntity<T> getById(@PathVariable ID id);
 
-    ResponseEntity<T> register(@RequestBody T entity);
-
     ResponseEntity<T> update(@PathVariable ID id, @RequestBody T entity);
 
     ResponseEntity<Void> delete(@PathVariable ID id);

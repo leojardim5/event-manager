@@ -11,7 +11,7 @@ import com.leonardo.eventosManager.repository.EventoRepository;
 @Service
 public class EventoService implements ServiceInterface<Evento> {
 
-    private EventoRepository eventoRepository;
+    private final EventoRepository eventoRepository;
 
     public EventoService(EventoRepository eventoRepository) {
         this.eventoRepository = eventoRepository;

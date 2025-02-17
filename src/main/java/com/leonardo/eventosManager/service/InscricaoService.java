@@ -11,7 +11,7 @@ import com.leonardo.eventosManager.repository.InscricaoRepository;
 @Service
 public class InscricaoService implements ServiceInterface<Inscricao> {
 
-    private InscricaoRepository inscricaoRepository;
+    private final InscricaoRepository inscricaoRepository;
 
     public InscricaoService(InscricaoRepository inscricãoRepository) {
         this.inscricaoRepository = inscricãoRepository;
