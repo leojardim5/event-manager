@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leonardo.eventosManager.model.Evento;
+import com.leonardo.eventosManager.model.Inscricao;
 import com.leonardo.eventosManager.service.EventoService;
 
 @RestController
@@ -88,6 +89,19 @@ public class EventoController implements ControllerInterface<Evento, Long> {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Retorna 500 em erro inesperado
         }
+    }
+
+    @GetMapping("/{id}/inscritos")
+    public ResponseEntity<List<Inscricao>> getInscritosByEventoId(@PathVariable Long id) {
+        Optional<Evento> evento = eventoService.findById(id);
+
+        if (evento.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<Inscricao> inscritos = evento.get().getIncricoes();
+
+        return ResponseEntity.ok(inscritos);
     }
 
 }
