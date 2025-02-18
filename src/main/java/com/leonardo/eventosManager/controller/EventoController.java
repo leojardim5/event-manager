@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.leonardo.eventosManager.DTO.EventoInscricaoDTO;
 import com.leonardo.eventosManager.model.Evento;
-import com.leonardo.eventosManager.model.Inscricao;
 import com.leonardo.eventosManager.service.EventoService;
 
 @RestController
@@ -92,16 +92,14 @@ public class EventoController implements ControllerInterface<Evento, Long> {
     }
 
     @GetMapping("/{id}/inscritos")
-    public ResponseEntity<List<Inscricao>> getInscritosByEventoId(@PathVariable Long id) {
+    public ResponseEntity<EventoInscricaoDTO> getInscritosPorEvento(@PathVariable Long id) {
         Optional<Evento> evento = eventoService.findById(id);
-
         if (evento.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        List<Inscricao> inscritos = evento.get().getIncricoes();
-
-        return ResponseEntity.ok(inscritos);
+        EventoInscricaoDTO eventoDTO = new EventoInscricaoDTO(evento.get());
+        return ResponseEntity.ok(eventoDTO);
     }
 
 }

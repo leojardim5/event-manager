@@ -52,4 +52,12 @@ public class Usuario {
         this.email = cpf;
     }
 
+    public List<Inscricao> getInscricoes() {
+        return inscricoes;
+    }
+
+    public void setInscricoes(List<Inscricao> inscricoes) {
+        this.inscricoes = inscricoes;
+    }
+
 }
