@@ -2,6 +2,7 @@ package com.leonardo.eventosManager.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.leonardo.eventosManager.DTO.EventoDTO;
 import com.leonardo.eventosManager.DTO.EventoInscricaoDTO;
 import com.leonardo.eventosManager.model.Evento;
 import com.leonardo.eventosManager.service.EventoService;
 
 @RestController
 @RequestMapping("/eventos")
-public class EventoController implements ControllerInterface<Evento, Long> {
+public class EventoController {
 
     private final EventoService eventoService;
 
@@ -28,40 +30,37 @@ public class EventoController implements ControllerInterface<Evento, Long> {
         this.eventoService = eventoService;
     }
 
-    @Override
     @GetMapping
-    public ResponseEntity<List<Evento>> getAll() {
-        List<Evento> eventos = eventoService.findALL();
-        return ResponseEntity.ok(eventos); // Retorna 200 OK com a lista de eventos
+    public ResponseEntity<List<EventoDTO>> getAll() {
+        List<EventoDTO> eventos = eventoService.findALL()
+                .stream()
+                .map(EventoDTO::new)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(eventos);
     }
 
-    @Override
     @GetMapping("/{id}")
-    public ResponseEntity<Evento> getById(@PathVariable Long id) {
+    public ResponseEntity<EventoDTO> getById(@PathVariable Long id) {
         Optional<Evento> evento = eventoService.findById(id);
-        if (evento.isPresent()) {
-            return ResponseEntity.ok(evento.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return evento.map(e -> ResponseEntity.ok(new EventoDTO(e)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Evento> register(@RequestBody Evento entity) {
+    public ResponseEntity<EventoDTO> register(@RequestBody Evento entity) {
         try {
             Evento novoEvento = eventoService.save(entity);
-            return ResponseEntity.status(HttpStatus.CREATED).body(novoEvento); // Retorna 201 Created
+            return ResponseEntity.status(HttpStatus.CREATED).body(new EventoDTO(novoEvento));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Retorna 400 Bad Request
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
-    @Override
     @PutMapping("/{id}")
-    public ResponseEntity<Evento> update(@PathVariable Long id, @RequestBody Evento entity) {
+    public ResponseEntity<EventoDTO> update(@PathVariable Long id, @RequestBody Evento entity) {
         Optional<Evento> eventoExistente = eventoService.findById(id);
-        if (!eventoExistente.isPresent()) {
-            return ResponseEntity.notFound().build(); // Retorna 404 se o evento não existir
+        if (eventoExistente.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
         try {
             Evento eventoAtualizado = eventoExistente.get();
@@ -69,25 +68,23 @@ public class EventoController implements ControllerInterface<Evento, Long> {
             eventoAtualizado.setDescricao(entity.getDescricao());
             eventoAtualizado.setData(entity.getData());
             eventoAtualizado.setLocalizacao(entity.getLocalizacao());
-            // Adicione outros campos conforme necessário
             Evento atualizado = eventoService.update(eventoAtualizado);
-            return ResponseEntity.ok(atualizado); // Retorna 200 OK com o evento atualizado
+            return ResponseEntity.ok(new EventoDTO(atualizado));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); // Retorna 400 se houver erro
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
-    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (!eventoService.findById(id).isPresent()) {
-            return ResponseEntity.notFound().build(); // Retorna 404 se não existir
+            return ResponseEntity.notFound().build();
         }
         try {
             eventoService.delete(id);
-            return ResponseEntity.noContent().build(); // Retorna 204 No Content ao excluir com sucesso
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Retorna 500 em erro inesperado
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -97,9 +94,6 @@ public class EventoController implements ControllerInterface<Evento, Long> {
         if (evento.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
-        EventoInscricaoDTO eventoDTO = new EventoInscricaoDTO(evento.get());
-        return ResponseEntity.ok(eventoDTO);
+        return ResponseEntity.ok(new EventoInscricaoDTO(evento.get()));
     }
-
 }

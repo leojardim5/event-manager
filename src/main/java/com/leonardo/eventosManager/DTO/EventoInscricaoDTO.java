@@ -21,7 +21,7 @@ public class EventoInscricaoDTO {
         this.data = evento.getData().toString();
         this.localizacao = evento.getLocalizacao();
         this.inscritos = evento.getIncricoes().stream()
-                .map(inscricao -> new UsuarioDTO())
+                .map(inscricao -> new UsuarioDTO(inscricao.getUsuario()))
                 .collect(Collectors.toList());
     }
 

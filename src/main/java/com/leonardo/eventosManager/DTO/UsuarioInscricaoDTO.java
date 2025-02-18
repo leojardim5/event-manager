@@ -15,7 +15,7 @@ public class UsuarioInscricaoDTO {
     public UsuarioInscricaoDTO(Usuario usuario) {
 
         this.id = usuario.getId();
-        this.nome = usuario.getEmail();
+        this.nome = usuario.getNome();
         this.email = usuario.getEmail();
 
         this.listaEvento = usuario.getInscricoes().stream()

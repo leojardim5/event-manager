@@ -2,8 +2,8 @@ package com.leonardo.eventosManager.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.leonardo.eventosManager.DTO.InscricaoDTO;
 import com.leonardo.eventosManager.model.Evento;
 import com.leonardo.eventosManager.model.Inscricao;
 import com.leonardo.eventosManager.model.TipoInscricao;
@@ -26,27 +27,25 @@ import com.leonardo.eventosManager.service.UsuarioService;
 
 @RestController
 @RequestMapping("/inscricoes")
-public class InscricaoController implements ControllerInterface<Inscricao, Long> {
+public class InscricaoController {
 
     private final InscricaoService inscricaoService;
     private final UsuarioService usuarioService;
     private final EventoService eventoService;
 
-    @Autowired
     public InscricaoController(InscricaoService inscricaoService, UsuarioService usuarioService, EventoService eventoService) {
         this.inscricaoService = inscricaoService;
         this.usuarioService = usuarioService;
         this.eventoService = eventoService;
     }
 
-    @Override
     @GetMapping
-    public ResponseEntity<List<Inscricao>> getAll() {
-        List<Inscricao> inscricoes = inscricaoService.findALL();
-        return ResponseEntity.ok(inscricoes);
+    public ResponseEntity<List<InscricaoDTO>> getAll() {
+        List<InscricaoDTO> listaIncricoes = inscricaoService.findALL()
+                .stream().map(inscricao -> new InscricaoDTO(inscricao)).collect(Collectors.toList());
+        return ResponseEntity.ok(listaIncricoes);
     }
 
-    @Override
     @GetMapping("/{id}")
     public ResponseEntity<Inscricao> getById(@PathVariable Long id) {
         Optional<Inscricao> inscricao = inscricaoService.findById(id);
@@ -74,7 +73,6 @@ public class InscricaoController implements ControllerInterface<Inscricao, Long>
         }
     }
 
-    @Override
     @PutMapping("/{id}")
     public ResponseEntity<Inscricao> update(@PathVariable Long id, @RequestBody Inscricao entity) {
         Optional<Inscricao> inscricaoExistente = inscricaoService.findById(id);
@@ -93,7 +91,6 @@ public class InscricaoController implements ControllerInterface<Inscricao, Long>
         }
     }
 
-    @Override
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (!inscricaoService.findById(id).isPresent()) {
@@ -105,5 +102,6 @@ public class InscricaoController implements ControllerInterface<Inscricao, Long>
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+
     }
 }
