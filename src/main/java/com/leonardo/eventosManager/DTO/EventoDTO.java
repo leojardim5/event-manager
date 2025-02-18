@@ -3,6 +3,7 @@ package com.leonardo.eventosManager.DTO;
 import java.time.LocalDate;
 
 import com.leonardo.eventosManager.model.Evento;
+import com.leonardo.eventosManager.model.TipoInscricao;
 
 public class EventoDTO {
 
@@ -11,6 +12,7 @@ public class EventoDTO {
     private String descricao;
     private LocalDate data;
     private String localizacao;
+    private TipoInscricao tipoInscricao;
 
     public EventoDTO(Evento evento) {
 
@@ -19,6 +21,16 @@ public class EventoDTO {
         this.descricao = evento.getDescricao();
         this.data = evento.getData();
         this.localizacao = evento.getLocalizacao();
+    }
+
+    public EventoDTO(Evento evento, TipoInscricao tipoInscricao) {
+
+        this.id = evento.getId();
+        this.nome = evento.getNome();
+        this.descricao = evento.getDescricao();
+        this.data = evento.getData();
+        this.localizacao = evento.getLocalizacao();
+        this.tipoInscricao = tipoInscricao;
 
     }
 
@@ -60,6 +72,14 @@ public class EventoDTO {
 
     public void setLocalizacao(String localizacao) {
         this.localizacao = localizacao;
+    }
+
+    public TipoInscricao getTipoInscricao() {
+        return tipoInscricao;
+    }
+
+    public void setTipoInscricao(TipoInscricao tipoInscricao) {
+        this.tipoInscricao = tipoInscricao;
     }
 
 }

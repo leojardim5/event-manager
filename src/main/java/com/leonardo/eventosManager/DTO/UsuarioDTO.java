@@ -1,5 +1,6 @@
 package com.leonardo.eventosManager.DTO;
 
+import com.leonardo.eventosManager.model.TipoInscricao;
 import com.leonardo.eventosManager.model.Usuario;
 
 public class UsuarioDTO {
@@ -7,11 +8,19 @@ public class UsuarioDTO {
     private long id;
     private String nome;
     private String email;
+    private TipoInscricao tipoInscricao;
 
     public UsuarioDTO(Usuario usuario) {
         this.id = usuario.getId();
         this.nome = usuario.getNome();
         this.email = usuario.getEmail();
+    }
+
+    public UsuarioDTO(Usuario usuario, TipoInscricao tipoInscricao) {
+        this.id = usuario.getId();
+        this.nome = usuario.getNome();
+        this.email = usuario.getEmail();
+        this.tipoInscricao = tipoInscricao;
     }
 
     public long getId() {
@@ -36,6 +45,14 @@ public class UsuarioDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public TipoInscricao getTipoInscricao() {
+        return tipoInscricao;
+    }
+
+    public void setTipoInscricao(TipoInscricao tipoInscricao) {
+        this.tipoInscricao = tipoInscricao;
     }
 
 }

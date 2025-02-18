@@ -53,4 +53,20 @@ public class InscricaoDTO {
         this.tipoInscricao = tipoInscricao;
     }
 
+    public Long getId_evento() {
+        return id_evento;
+    }
+
+    public void setId_evento(Long id_evento) {
+        this.id_evento = id_evento;
+    }
+
+    public Long getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(Long id_usuario) {
+        this.id_usuario = id_usuario;
+    }
+
 }

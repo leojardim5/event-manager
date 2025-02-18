@@ -3,6 +3,7 @@ package com.leonardo.eventosManager.DTO;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.leonardo.eventosManager.model.TipoInscricao;
 import com.leonardo.eventosManager.model.Usuario;
 
 public class UsuarioInscricaoDTO {
@@ -11,6 +12,7 @@ public class UsuarioInscricaoDTO {
     private String nome;
     private String email;
     private List<EventoDTO> listaEvento;
+    private TipoInscricao tipoEscricao;
 
     public UsuarioInscricaoDTO(Usuario usuario) {
 
@@ -19,7 +21,7 @@ public class UsuarioInscricaoDTO {
         this.email = usuario.getEmail();
 
         this.listaEvento = usuario.getInscricoes().stream()
-                .map(inscricao -> new EventoDTO(inscricao.getEvento()))
+                .map(inscricao -> new EventoDTO(inscricao.getEvento(), inscricao.getTipoInscricao()))
                 .collect(Collectors.toList());
 
     }

@@ -53,23 +53,39 @@ public class InscricaoController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Inscricao> register(@RequestParam Long usuarioId, @RequestParam Long eventoId, @RequestParam String tipo) {
-        Optional<Usuario> usuario = usuarioService.findById(usuarioId);
-        Optional<Evento> evento = eventoService.findById(eventoId);
+    public ResponseEntity<?> register(
+            @RequestParam(name = "usuarioId", required = true) Long usuarioId,
+            @RequestParam(name = "eventoId", required = true) Long eventoId,
+            @RequestParam(name = "tipo", required = true) String tipo) {
 
-        if (usuario.isEmpty() || evento.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        Optional<Usuario> usuarioOpt = usuarioService.findById(usuarioId);
+        Optional<Evento> eventoOpt = eventoService.findById(eventoId);
+
+        if (usuarioOpt.isEmpty() || eventoOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Usuário ou Evento não encontrado.");
+        }
+
+        // Validação do tipo de inscrição
+        TipoInscricao tipoInscricao;
+        try {
+            tipoInscricao = TipoInscricao.valueOf(tipo.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Tipo de inscrição inválido. Use 'ORGANIZADOR' ou 'CONVIDADO'." + e);
         }
 
         try {
             Inscricao inscricao = new Inscricao();
-            inscricao.setUsuario(usuario.get());
-            inscricao.setEvento(evento.get());
-            inscricao.setTipoInscricao(tipo.equalsIgnoreCase("ORGANIZADOR") ? TipoInscricao.ORGANIZADOR : TipoInscricao.CONVIDADO);
+            inscricao.setUsuario(usuarioOpt.get());
+            inscricao.setEvento(eventoOpt.get());
+            inscricao.setTipoInscricao(tipoInscricao);
+
             Inscricao novaInscricao = inscricaoService.save(inscricao);
-            return ResponseEntity.status(HttpStatus.CREATED).body(novaInscricao);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new InscricaoDTO(novaInscricao));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao salvar inscrição: " + e.getMessage());
         }
     }
 
