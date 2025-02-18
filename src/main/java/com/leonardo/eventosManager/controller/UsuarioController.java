@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.leonardo.eventosManager.DTO.UsuarioInscricaoDTO;
 import com.leonardo.eventosManager.model.Usuario;
 import com.leonardo.eventosManager.service.UsuarioService;
 
@@ -53,6 +54,7 @@ public class UsuarioController implements ControllerInterface<Usuario, Long> {
     }
 
     @PutMapping("/{id}")
+    @Override
     public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario entity) {
         Optional<Usuario> usuarioExistente = usuarioService.findById(id);
         if (!usuarioExistente.isPresent()) {
@@ -82,6 +84,17 @@ public class UsuarioController implements ControllerInterface<Usuario, Long> {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/{id}/eventos")
+    public ResponseEntity<UsuarioInscricaoDTO> getInscritosPorEvento(@PathVariable Long id) {
+        Optional<Usuario> usuario = usuarioService.findById(id);
+        if (usuario.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        UsuarioInscricaoDTO usuarioDTO = new UsuarioInscricaoDTO(usuario.get());
+        return ResponseEntity.ok(usuarioDTO);
     }
 
 }
