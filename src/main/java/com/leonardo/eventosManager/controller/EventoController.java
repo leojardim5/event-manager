@@ -89,4 +89,5 @@ public class EventoController implements ControllerInterface<Evento, Long> {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // Retorna 500 em erro inesperado
         }
     }
+
 }

@@ -6,15 +6,19 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.leonardo.eventosManager.model.Usuario;
 import com.leonardo.eventosManager.service.UsuarioService;
 
 @Controller
+@RequestMapping("/usuarios")
 public class UsuarioController implements ControllerInterface<Usuario, Long> {
 
     private final UsuarioService usuarioService;
@@ -48,6 +52,7 @@ public class UsuarioController implements ControllerInterface<Usuario, Long> {
 
     }
 
+    @PutMapping("/{id}")
     public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario entity) {
         Optional<Usuario> usuarioExistente = usuarioService.findById(id);
         if (!usuarioExistente.isPresent()) {
@@ -66,7 +71,8 @@ public class UsuarioController implements ControllerInterface<Usuario, Long> {
     }
 
     @Override
-    public ResponseEntity<Void> delete(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (!usuarioService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
