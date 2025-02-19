@@ -8,6 +8,9 @@ COPY pom.xml ./
 COPY .mvn ./.mvn
 COPY mvnw ./
 
+# 2. Concede permissão de execução ao mvnw
+RUN chmod +x mvnw
+
 # 2. Executa o build dentro do container
 RUN ./mvnw clean package -DskipTests
 
