@@ -1,0 +1,45 @@
+
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_container
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: banco_eventos
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+  app:
+    build: .
+    container_name: springboot_app
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/banco_eventos
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASS}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    command: ["java", "-jar", "/app.jar"]
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
