@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import io.github.cdimascio.dotenv.Dotenv;
 
 @SpringBootApplication
-public class JavaEstudoApplication {
+public class EventManagerApplication {
 
     static {
         Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
@@ -19,6 +19,6 @@ public class JavaEstudoApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(JavaEstudoApplication.class, args);
+        SpringApplication.run(EventManagerApplication.class, args);
     }
 }
