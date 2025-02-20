@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/eccd9f57-47f8-4e60-8504-2c4e1ee8e7da)📌 Event Manager
+📌 Event Manager
 
 Este projeto é um Gerenciador de Eventos desenvolvido com Java Spring Boot e PostgreSQL, utilizando Docker para facilitar a 
 configuração do ambiente. Ele permite gerenciar usuários, eventos e inscrições, gerando automaticamente dados fictícios.
